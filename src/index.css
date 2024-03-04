@@ -1,0 +1,54 @@
+body {
+  font-family: system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  min-height: 100dvh;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #000;
+  }
+}
+
+#root {
+  display: grid;
+  gap: 32px;
+  padding: 24px;
+  width: 100%;
+}
+
+@media (min-width: 480px) {
+  #root {
+    grid-template-columns: repeat(2, 1fr);
+    padding-block: 64px;
+    padding-inline: 32px;
+    max-width: 1280px;
+    margin: auto;
+  }
+}
+
+button {
+  appearance: none;
+  border: 0px;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  border-radius: 32px;
+  font-size: 128px;
+  display: grid;
+  place-content: center;
+  transition: transform 0.125s ease-in-out;
+  box-shadow:
+    8px 8px 8px 0px rgba(255, 255, 255, 0.33) inset,
+    -8px -8px 8px 0px rgba(0, 0, 0, 0.1) inset;
+  -webkit-tap-highlight-color: transparent;
+}
+button:hover {
+  transform: translateY(-2px) scale(1.03125);
+}
+button:active {
+  transform: translateY(0) scale(0.96875);
+}
