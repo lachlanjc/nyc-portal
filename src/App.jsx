@@ -28,7 +28,7 @@ function App() {
         onClick={() => {
           useHaptic("rocket");
         }}
-        style={{ backgroundColor: "#4f5865" }}
+        style={{ backgroundColor: "#4a6789" }}
       >
         🚀
       </button>
@@ -36,7 +36,7 @@ function App() {
         onClick={() => {
           useHaptic("cat");
         }}
-        style={{ backgroundColor: "#fec35d" }}
+        style={{ backgroundColor: "#ffc752" }}
       >
         🐈
       </button>
@@ -44,7 +44,7 @@ function App() {
         onClick={() => {
           useHaptic("alarm");
         }}
-        style={{ backgroundColor: "#88a5b9" }}
+        style={{ backgroundColor: "#ddeedc" }}
       >
         ⏰
       </button>
@@ -52,7 +52,7 @@ function App() {
         onClick={() => {
           useHaptic("fairy");
         }}
-        style={{ backgroundColor: "#ff89a5" }}
+        style={{ backgroundColor: "#ff899b" }}
       >
         🧚
       </button>
