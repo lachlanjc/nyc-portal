@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/photos/:path*",
+      "destination": "http://oldnyc-assets.nypl.org/600px/:path*"
+    }
+  ]
+}
