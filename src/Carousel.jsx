@@ -91,6 +91,7 @@ function Scene({ children, ...props }) {
           sizeY={1}
           distanceToCamera={48}
           width={431}
+          paddingTop={16}
         >
           <Card borderRadius={32} padding={12}>
             <Tabs
@@ -118,9 +119,9 @@ function Scene({ children, ...props }) {
         onPointerOver={hover}
         onPointerOut={hover}
         data={data}
-        from={Math.PI * (3 / 4)}
-        len={Math.PI / 2}
-        position={[-0.75, -1.5, 9.5]}
+        from={Math.PI * (1 / 1.75)}
+        len={Math.PI * 0.5}
+        position={[-6, -5, 5]}
       />
       <ActiveCard
         hoveredI={hovered}
@@ -134,7 +135,7 @@ function Cards({
   data,
   from = 0,
   len = Math.PI * 2,
-  radius = 5.25,
+  radius = 6,
   onPointerOver,
   onPointerOut,
   ...props
@@ -152,7 +153,11 @@ function Cards({
               e.stopPropagation(), hover(i), onPointerOver(i)
             )}
             onPointerOut={() => (hover(null), onPointerOut(null))}
-            position={[Math.sin(angle) * radius, 0, Math.cos(angle) * radius]}
+            position={[
+              Math.sin(angle) * radius,
+              i * 0.33,
+              Math.cos(angle) * radius,
+            ]}
             rotation={[0, Math.PI / 2 + angle, 0]}
             active={hovered !== null}
             hovered={hovered === i}
@@ -228,16 +233,18 @@ function ActiveCard({
           sizeX={2}
           sizeY={1}
           distanceToCamera={48}
-          width={1024}
-          height={512}
+          height={1024}
+          width={768 + 512}
+          paddingLeft={768}
+          paddingTop={128}
+          paddingBottom={64}
         >
           <Card
             width="100%"
-            flexDirection="row"
+            flexDirection="column"
             alignItems="center"
             ref={rootRef}
             overflow="hidden"
-            // backgroundOpacity={0}
           >
             {/* <UIImage
               url={`/photos/${data.photo_id}.jpg`}
@@ -283,14 +290,13 @@ function ActiveCard({
               paddingY={32}
               overflowY="scroll"
             >
-              <Text fontSize={48} opacity={0.5} width={512 - 32}>
+              <Text fontSize={32} opacity={0.5} width={512 - 32}>
                 {data.date}
               </Text>
               <Text fontWeight="bold" fontSize={32} width={512 - 32}>
                 {data.title || data.original_title?.replace(" - ", "\n")}
               </Text>
               <Text
-                // fontFamily="/Spectral-Regular.woff"
                 lineHeight={24}
                 color="white"
                 fillOpacity={0.5}
@@ -302,19 +308,6 @@ function ActiveCard({
           </Card>
         </Fullscreen>
       </Defaults>
-      {/* <Text
-        font="/Spectral-Regular.woff"
-        fontSize={0.25}
-        position={[width / 2 + 0.5, 2.5, 0]}
-        anchorX="left"
-        anchorY="top"
-        color="black"
-        maxWidth={6}
-        lineHeight={1.25}
-        fillOpacity={0.5}
-      >
-        {data.text}
-      </Text> */}
       {/* <Billboard>
       <Image
         ref={imgRef}
