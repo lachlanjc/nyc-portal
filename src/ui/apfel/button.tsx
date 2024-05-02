@@ -1,16 +1,19 @@
-import { Container, ContainerProperties, DefaultProperties } from '@react-three/uikit'
-import React from 'react'
-import { colors } from './theme.js'
+import {
+  Container,
+  ContainerProperties,
+  DefaultProperties,
+} from "@react-three/uikit";
+import { colors } from "./theme.js";
 
 function getAribtrarySize(size: number) {
-  const multiplier = size / 44
+  const multiplier = size / 44;
   return {
     height: 44 * multiplier,
     padding: 20 * multiplier,
     borderRadius: 12 * multiplier,
     fontSize: 14 * multiplier,
     iconSize: 18 * multiplier,
-  }
+  };
 }
 
 const sizes = {
@@ -49,34 +52,34 @@ const sizes = {
     fontSize: 18,
     iconSize: 28,
   },
-}
+};
 
-type Variant = 'pill' | 'rect' | 'icon'
+type Variant = "pill" | "rect" | "icon";
 
 export function Button({
   children,
-  size = 'md',
-  variant = 'rect',
+  size = "md",
+  variant = "rect",
   platter,
   selected,
   disabled,
   ...props
 }: ContainerProperties & {
-  size?: keyof typeof sizes | number
-  variant?: Variant
-  platter?: boolean
-  selected?: boolean
-  disabled?: boolean
+  size?: keyof typeof sizes | number;
+  variant?: Variant;
+  platter?: boolean;
+  selected?: boolean;
+  disabled?: boolean;
 }) {
   const { borderRadius, fontSize, height, padding, iconSize } =
-    typeof size === 'number' ? getAribtrarySize(size) : sizes[size]
+    typeof size === "number" ? getAribtrarySize(size) : sizes[size];
   return (
     <Container
-      cursor={disabled ? undefined : 'pointer'}
+      cursor={disabled ? undefined : "pointer"}
       height={height}
-      width={variant === 'icon' ? height : undefined}
-      paddingX={variant === 'icon' ? undefined : padding}
-      borderRadius={variant === 'rect' ? borderRadius : height / 2}
+      width={variant === "icon" ? height : undefined}
+      paddingX={variant === "icon" ? undefined : padding}
+      borderRadius={variant === "rect" ? borderRadius : height / 2}
       justifyContent="center"
       alignItems="center"
       backgroundColor={colors.foreground}
@@ -90,11 +93,11 @@ export function Button({
         color={selected && !disabled ? colors.background : colors.foreground}
         opacity={disabled ? 0.4 : 1}
         fontSize={fontSize}
-        width={variant === 'icon' ? iconSize : undefined}
-        height={variant === 'icon' ? iconSize : undefined}
+        width={variant === "icon" ? iconSize : undefined}
+        height={variant === "icon" ? iconSize : undefined}
       >
         {children}
       </DefaultProperties>
     </Container>
-  )
+  );
 }

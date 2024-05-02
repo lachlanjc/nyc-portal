@@ -22,11 +22,10 @@ import { jay, stuytown, wasq } from "./data";
 
 import useSound from "use-sound";
 import { Fullscreen, Text, setPreferredColorScheme } from "@react-three/uikit";
-import { Defaults } from "./ui/apfel/theme";
-import { Card } from "./ui/apfel/card";
+import { Defaults } from "./ui/apfel/theme.tsx";
+import { Card } from "./ui/apfel/card.tsx";
 // import { Button } from "./ui/apfel/button";
-import { Tabs, TabsButton } from "./ui/apfel/tabs";
-// import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/default/tabs";
+import { Tabs, TabsButton } from "./ui/apfel/tabs.tsx";
 
 extend(geometry);
 setPreferredColorScheme("light");

@@ -3,7 +3,6 @@ import {
   ContainerProperties,
   DefaultProperties,
 } from "@react-three/uikit";
-import React from "react";
 import { GlassMaterial, colors } from "./theme.js";
 
 export function Card({ children, ...props }: ContainerProperties) {
