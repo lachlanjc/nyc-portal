@@ -1,19 +1,45 @@
 import * as THREE from "three";
 import { useLayoutEffect, useEffect, useRef, useState } from "react";
 import { Canvas, extend, useFrame } from "@react-three/fiber";
-import { VRButton, XR } from "@react-three/xr";
-import { Image, ScrollControls, Billboard, Text } from "@react-three/drei";
+import {
+  ARButton,
+  VRButton,
+  XR,
+  Controllers,
+  Hands,
+  Interactive,
+} from "@react-three/xr";
+import {
+  Environment,
+  Image,
+  ScrollControls,
+  Billboard,
+  Text,
+} from "@react-three/drei";
 import { easing, geometry } from "maath";
 import data from "./data";
 
 extend(geometry);
 
+const ENVIRONMENTS = `hdri.jpeg
+IMG_20240424_193650_655.jpg
+IMG_20240424_193939_638.jpg
+IMG_20240424_194522_611.jpg
+IMG_20240424_194720_448.jpg
+IMG_20240424_195758_128.jpg`.split("\n");
+
 const App = () => (
   <>
     <VRButton />
+    {/* <ARButton /> */}
     <Canvas dpr={[1, 2]}>
       <ScrollControls pages={4} infinite>
         <XR>
+          <Environment background files="ima.jpg" path="/" />
+          <ambientLight />
+          <pointLight position={[10, 10, 10]} />
+          <Controllers />
+          <Hands />
           <Scene position={[0, 1.5, 0]} />
         </XR>
       </ScrollControls>
@@ -92,7 +118,7 @@ function Cards({
   );
 }
 
-function Card({ url, active, hovered, ...props }) {
+function Card({ url, active, hovered, onPointerOver, onPointerOut, ...props }) {
   const ref = useRef();
   useFrame((state, delta) => {
     const f = hovered ? 1.4 : active ? 1.25 : 1;
@@ -100,9 +126,15 @@ function Card({ url, active, hovered, ...props }) {
     easing.damp3(ref.current.scale, [1.618 * f, 1 * f, 1], 0.15, delta);
   });
   return (
-    <group {...props}>
-      <Image ref={ref} url={url} scale={[1, 1, 1]} side={THREE.DoubleSide} />
-    </group>
+    <Interactive onSelect={onPointerOver} onBlur={onPointerOut}>
+      <group
+        {...props}
+        onPointerOver={onPointerOver}
+        onPointerOut={onPointerOut}
+      >
+        <Image ref={ref} url={url} scale={[1, 1, 1]} side={THREE.DoubleSide} />
+      </group>
+    </Interactive>
   );
 }
 
@@ -113,7 +145,7 @@ function ActiveCard({
     height: 1,
     title: "",
     years: [],
-    image_url: "/716458f-a.jpg",
+    image_url: "/704452f-a.jpg",
   },
   ...props
 }) {
@@ -159,18 +191,18 @@ function ActiveCard({
         {data.title || data.original_title}
       </Text>
       {/* <Text
-          font="/Spectral-Regular.woff"
-          fontSize={0.25}
-          position={[width / 2 + 0.5, 2.5, 0]}
-          anchorX="left"
-          anchorY="top"
-          color="black"
-          maxWidth={6}
-          lineHeight={1.25}
-          fillOpacity={0.5}
-        >
-          {data.text}
-        </Text> */}
+        font="/Spectral-Regular.woff"
+        fontSize={0.25}
+        position={[width / 2 + 0.5, 2.5, 0]}
+        anchorX="left"
+        anchorY="top"
+        color="black"
+        maxWidth={6}
+        lineHeight={1.25}
+        fillOpacity={0.5}
+      >
+        {data.text}
+      </Text> */}
       <Image
         ref={imgRef}
         transparent

@@ -1,4 +1,4 @@
-import data from "./minimal.json" assert { type: "json" };
+import data from "./locations/jay.json" assert { type: "json" };
 
 interface Photo {
   text: string;
@@ -17,6 +17,6 @@ interface Photo {
   years: Array<string>;
 }
 
-const photos = data as Array<Photo>;
+const photos = (data as Array<Photo>).sort((photo) => Number(photo.years?.[0]));
 
 export default photos;
