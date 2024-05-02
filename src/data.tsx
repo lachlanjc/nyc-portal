@@ -1,4 +1,6 @@
-import data from "./locations/jay.json" assert { type: "json" };
+import jayData from "./locations/jay.json" assert { type: "json" };
+import stuytownData from "./locations/stuytown.json" assert { type: "json" };
+import wasqData from "./locations/wasq.json" assert { type: "json" };
 
 interface Photo {
   text: string;
@@ -17,6 +19,12 @@ interface Photo {
   years: Array<string>;
 }
 
-const photos = (data as Array<Photo>).sort((photo) => Number(photo.years?.[0]));
-
-export default photos;
+export const jay = (jayData as Array<Photo>).sort(
+  (a, b) => Number(b.date) - Number(a.date),
+);
+export const stuytown = (stuytownData as Array<Photo>).sort(
+  (a, b) => Number(b.date) - Number(a.date),
+);
+export const wasq = (wasqData as Array<Photo>).sort(
+  (a, b) => Number(b.date) - Number(a.date),
+);

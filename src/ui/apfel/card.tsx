@@ -1,6 +1,10 @@
-import { Container, ContainerProperties, DefaultProperties } from '@react-three/uikit'
-import React from 'react'
-import { GlassMaterial, colors } from './theme.js'
+import {
+  Container,
+  ContainerProperties,
+  DefaultProperties,
+} from "@react-three/uikit";
+import React from "react";
+import { GlassMaterial, colors } from "./theme.js";
 
 export function Card({ children, ...props }: ContainerProperties) {
   return (
@@ -15,7 +19,9 @@ export function Card({ children, ...props }: ContainerProperties) {
       borderRadius={32}
       {...props}
     >
-      <DefaultProperties color={colors.cardForeground}>{children}</DefaultProperties>
+      <DefaultProperties color={colors.cardForeground}>
+        {children}
+      </DefaultProperties>
     </Container>
-  )
+  );
 }

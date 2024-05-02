@@ -1,0 +1,3 @@
+- [ ] Darken world during photo view?
+- [ ] Switch between locations
+- [ ] Reduce photos?
