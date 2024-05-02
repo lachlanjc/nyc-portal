@@ -121,7 +121,7 @@ function Scene({ children, ...props }) {
         data={data}
         from={Math.PI * (1 / 1.75)}
         len={Math.PI * 0.5}
-        position={[-6, -5, 5]}
+        position={[-12, -5, 5]}
       />
       <ActiveCard
         hoveredI={hovered}
@@ -135,7 +135,7 @@ function Cards({
   data,
   from = 0,
   len = Math.PI * 2,
-  radius = 6,
+  radius = 10,
   onPointerOver,
   onPointerOut,
   ...props
@@ -218,8 +218,7 @@ function ActiveCard({
   useLayoutEffect(() => void (imgRef.current.material.zoom = 0.8), [hoveredI]);
   useFrame((state, delta) => {
     easing.damp(imgRef.current.material, "zoom", 1, 0.5, delta);
-    // easing.damp(rootRef.current, "opacity", hoveredI !== null, 0.3, delta);
-    // easing.damp(rootRef.current.setStyle)
+    easing.damp(rootRef.current, "opacity", hoveredI !== null, 0.3, delta);
   });
   const baseSize = 6;
   const aspectRatio = data.width / data.height;
@@ -233,94 +232,49 @@ function ActiveCard({
           sizeX={2}
           sizeY={1}
           distanceToCamera={48}
-          height={1024}
           width={768 + 512}
           paddingLeft={768}
-          paddingTop={128}
-          paddingBottom={64}
+          paddingTop={512}
         >
           <Card
             width="100%"
             flexDirection="column"
             alignItems="center"
-            ref={rootRef}
-            overflow="hidden"
+            gap={8}
+            paddingX={32}
+            paddingY={32}
+            overflowY="scroll"
           >
-            {/* <UIImage
-              url={`/photos/${data.photo_id}.jpg`}
-              flexGrow={1}
-              width={512}
-              height={512}
-              fillMode="cover"
-              borderTopLeftRadius={32}
-              borderBottomLeftRadius={32}
-            /> */}
-            <Container flexGrow={1} width={512} height={512} overflow="hidden">
-              <Content>
-                <Image
-                  ref={imgRef}
-                  // transparent
-                  // position={[0, 1, 0]}
-                  url={`/photos/${data.photo_id}.jpg`}
-                >
-                  <roundedPlaneGeometry
-                    parameters={{ width, height }}
-                    args={[width, height, 0.075]}
-                  />
-                </Image>
-              </Content>
-              {/* <UIImage
-              // ref={imgRef}
-              // transparent
-              width={512}
-              height={512}
-              // position={[0, 1, 0]}
-              src={`/photos/${data.photo_id}.jpg`}
-              borderRadius={32}
-              fit="cover"
-            /> */}
-            </Container>
-            <Container
-              flexGrow={1}
-              flexDirection="column"
-              justifyContent="flex-start"
-              height="100%"
-              gap={8}
-              paddingX={32}
-              paddingY={32}
-              overflowY="scroll"
+            <Text fontSize={32} opacity={0.5} width={512 - 32}>
+              {data.date}
+            </Text>
+            <Text fontWeight="bold" fontSize={32} width={512 - 32}>
+              {data.title || data.original_title?.replace(" - ", "\n")}
+            </Text>
+            <Text
+              lineHeight={24}
+              color="white"
+              fillOpacity={0.5}
+              width={512 - 32}
             >
-              <Text fontSize={32} opacity={0.5} width={512 - 32}>
-                {data.date}
-              </Text>
-              <Text fontWeight="bold" fontSize={32} width={512 - 32}>
-                {data.title || data.original_title?.replace(" - ", "\n")}
-              </Text>
-              <Text
-                lineHeight={24}
-                color="white"
-                fillOpacity={0.5}
-                width={512 - 32}
-              >
-                {data.text || ""}
-              </Text>
-            </Container>
+              {data.text || ""}
+            </Text>
           </Card>
         </Fullscreen>
       </Defaults>
-      {/* <Billboard>
-      <Image
-        ref={imgRef}
-        // transparent
-        // position={[0, 1, 0]}
-        url={`/photos/${data.photo_id}.jpg`}
-      >
-        <roundedPlaneGeometry
-          parameters={{ width, height }}
-          args={[width, height, 0.075]}
-        />
-      </Image>
-      </Billboard> */}
+      <Billboard>
+        <Image
+          ref={imgRef}
+          // transparent
+          position={[5, 1.5, 0]}
+          url={`/photos/${data.photo_id}.jpg`}
+        >
+          <roundedPlaneGeometry
+            parameters={{ width, height }}
+            args={[width, height, 0.075]}
+          />
+        </Image>
+      </Billboard>
     </group>
   );
 }
