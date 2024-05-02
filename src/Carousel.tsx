@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as THREE from "three";
 import { useLayoutEffect, useRef, useState } from "react";
 import { Canvas, extend, useFrame, useLoader } from "@react-three/fiber";
@@ -20,12 +21,14 @@ import {
 import { easing, geometry } from "maath";
 import { jay, stuytown, wasq } from "./data";
 
+import { useEnvironment } from "@react-three/drei";
+
 import useSound from "use-sound";
 import { Fullscreen, Text, setPreferredColorScheme } from "@react-three/uikit";
-import { Defaults } from "./ui/apfel/theme.tsx";
-import { Card } from "./ui/apfel/card.tsx";
-// import { Button } from "./ui/apfel/button";
-import { Tabs, TabsButton } from "./ui/apfel/tabs.tsx";
+import { Defaults } from "./apfel/theme";
+import { Card } from "./apfel/card";
+// import { Button } from "./ui/button";
+import { Tabs, TabsButton } from "./apfel/tabs";
 
 extend(geometry);
 setPreferredColorScheme("light");
@@ -35,7 +38,6 @@ const App = () => (
     <VRButton />
     {/* <ARButton /> */}
     <Canvas dpr={[1, 2]} gl={{ localClippingEnabled: true }}>
-      {/* <ScrollControls pages={4} infinite> */}
       <XR>
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
@@ -43,7 +45,6 @@ const App = () => (
         <Hands />
         <Scene position={[0, 1.5, 0]} />
       </XR>
-      {/* </ScrollControls> */}
     </Canvas>
   </>
 );
@@ -59,24 +60,38 @@ function Scene({ children, ...props }) {
   const [location, setLocation] = useState("jay");
   const data = { jay, stuytown, wasq }[location];
 
-  useLoader(TextureLoader, "/environments/jay.jpg");
-  useLoader(TextureLoader, "/environments/stuytown.jpg");
-  useLoader(TextureLoader, "/environments/wasq.jpg");
+  // Preload textures
+  const jayTexture = useEnvironment({
+    files: "jay.jpg",
+    path: "/environments/",
+  });
+  const stuytownTexture = useEnvironment({
+    files: "stuytown.jpg",
+    path: "/environments/",
+  });
+  const wasqTexture = useEnvironment({
+    files: "wasq.jpg",
+    path: "/environments/",
+  });
+  const texture = {
+    jay: jayTexture,
+    stuytown: stuytownTexture,
+    wasq: wasqTexture,
+  }[location];
 
   useFrame((state, delta) => {
     state.events.update(); // Raycasts every frame rather than on pointer-move
-    easing.damp3(
-      state.camera.position,
-      [1, state.pointer.y + 3, 9],
-      0.3,
-      delta
-    );
+    easing.damp3(state.camera.position, [1, state.pointer.y, 9], 0.3, delta);
     state.camera.lookAt(0, 0, 0);
   });
 
   return (
     <group ref={ref} {...props}>
-      <Environment background files={`${location}.jpg`} path="/environments/" />
+      <Environment
+        background
+        map={texture}
+        backgroundRotation={[0, Math.PI * (2 / 3), 0]}
+      />
       <Defaults>
         <Fullscreen
           flexDirection="column"
@@ -269,7 +284,7 @@ function ActiveCard({
         >
           <roundedPlaneGeometry
             parameters={{ width, height }}
-            args={[width, height, 0.075]}
+            args={[width, height, 0.125]}
           />
         </Image>
       </Billboard>
