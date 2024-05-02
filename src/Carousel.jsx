@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { useLayoutEffect, useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { Canvas, extend, useFrame, useLoader } from "@react-three/fiber";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 import {
@@ -20,15 +20,8 @@ import {
 import { easing, geometry } from "maath";
 import { jay, stuytown, wasq } from "./data";
 
-import {
-  Root as UIRoot,
-  Container,
-  Fullscreen,
-  Image as UIImage,
-  Content,
-  Text,
-  setPreferredColorScheme,
-} from "@react-three/uikit";
+import useSound from "use-sound";
+import { Fullscreen, Text, setPreferredColorScheme } from "@react-three/uikit";
 import { Defaults } from "./ui/apfel/theme";
 import { Card } from "./ui/apfel/card";
 // import { Button } from "./ui/apfel/button";
@@ -61,6 +54,7 @@ export default App;
 const getImgUrl = (url) => `/photos/${url.split("/").at(-1)}`;
 
 function Scene({ children, ...props }) {
+  const [playSwitch] = useSound("/switch-on.mp3", { volume: 0.5 });
   const ref = useRef();
   const [hovered, hover] = useState(null);
   const [location, setLocation] = useState("jay");
@@ -100,6 +94,7 @@ function Scene({ children, ...props }) {
               onValueChange={(loc) => {
                 setLocation(loc);
                 hover(null);
+                playSwitch();
               }}
             >
               <TabsButton value="jay">
@@ -140,6 +135,7 @@ function Cards({
   onPointerOut,
   ...props
 }) {
+  const [playPlunger] = useSound("/plunger-immediate.mp3", { volume: 0.15 });
   const [hovered, hover] = useState(null);
   const amount = data.length + 3;
   return (
@@ -149,9 +145,12 @@ function Cards({
         return (
           <PhotoCard
             key={angle}
-            onPointerOver={(e) => (
-              e.stopPropagation(), hover(i), onPointerOver(i)
-            )}
+            onPointerOver={(e) => {
+              e.stopPropagation();
+              hover(i);
+              playPlunger();
+              onPointerOver(i);
+            }}
             onPointerOut={() => (hover(null), onPointerOut(null))}
             position={[
               Math.sin(angle) * radius,
