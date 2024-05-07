@@ -165,7 +165,10 @@ function Cards({
               playPlunger();
               onPointerOver(i);
             }}
-            onPointerOut={() => (hover(null), onPointerOut(null))}
+            onPointerOut={() => {
+              hover(null);
+              onPointerOut(null);
+            }}
             position={[
               Math.sin(angle) * radius,
               i * 0.33,
